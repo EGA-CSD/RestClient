@@ -71,7 +71,8 @@
                     curl_setopt($this->conn, CURLOPT_URL, "http://$this->server:$this->port/$urlPath");
                 }
 
-                $playLoad = json_decode( array("customer" => $msg ));
+                //$playLoad = json_decode( array("customer" => $msg ));
+                $playLoad = $msg;
                 curl_setopt($this->conn, CURLOPT_POSTFIELDS, $playLoad);
                 curl_setopt($this->conn, CURLOPT_SSL_VERIFYPEER, 0);
                 curl_setopt($this->conn, CURLOPT_RETURNTRANSFER, true);
