@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>RestFUL API</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+    function addParam(){
+        $('#div-param-list').append($('<br><div id="div-parm" class="form-inline"><div class="input-group div-param-list-input"><span class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span><span class="input-group-addon">param</span><input id="param" type="text" class="form-control" name="param" placeholder="name"><span class="input-group-addon">value</span><input id="value" type="text" class="form-control" name="value" placeholder="value"></div></div>'))
+    }
+
+    function getAPI(){
+
+        var local = window.location.host+"/RestClient/ega/api/soap2json/soap2json.php";
+        var endPoint = "";
+        var params = "";
+        var err = "";
+
+        endPoint = $('#endPoint').val();
+
+        if( endPoint ){
+            params = local+"?endPoint="+encodeURIComponent(endPoint);
+            $('.div-param-list-input :input').each(
+            function(i){ 
+                console.log("name:" + i + $(this).attr('name'));
+                if($(this).attr('name') == "param"){
+                    if($(this).val() == ""){
+                        err = "Invalid input: The empty name is not allowed.";
+                        return;
+                    }else{
+                        params += "&"+$(this).val();
+                    }
+                }else if($(this).attr('name') == "value"){
+                    if($(this).val() == ""){
+                        err = "Invalid input: The empty value is not allowed.";
+                        return;
+                    }else{
+                        params += "="+$(this).val();
+                    }
+                }
+            });
+        }else{
+            err = "Invalid input: The empty end-point is not allowed."
+        }
+
+        if( err ){
+            $("#url-api-pre").html(err);
+        }else{
+            $("#url-api-pre").html(params);
+        }
+        console.log("params : " + params);
+    }
+
+    function copyToClipboard(text){
+        var textArea = document.createElement( "textarea" );
+        textArea.value = text;
+        document.body.appendChild( textArea );
+        textArea.select();
+
+        try {
+          var successful = document.execCommand( 'copy' );
+          var msg = successful ? 'successful' : 'unsuccessful';
+          console.log('Copying text command was ' + msg);
+        } catch (err) {
+          console.log('Oops, unable to copy');
+        }
+
+        document.body.removeChild( textArea );
+    }
+
+    function copy(){
+        var data = $("#url-api-pre").text();
+        copyToClipboard( data );
+    }
+</script>
+
+<div class="container">
+  <h2>RESTFUL API</h2>
+  <h6>This service is provided for developers in order to convert from SOAP to JSON format.</h6>
+  <!-- Trigger the modal with a button -->
+  <form>
+    <div class="input-group">
+      <span class="input-group-addon">End Point</span>
+      <input id="endPoint" type="text" class="form-control" name="endPoint" placeholder="https://www.example.com?WSDL">
+    </div>
+    <br>
+    <div id="div-param-list" class="input-group">
+        <div class="form-inline">
+            <div class="input-group div-param-list-input" id="div-param-list-input">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>
+              <span class="input-group-addon">param</span>
+              <input id="param-name" type="text" class="form-control input-parameter" name="param" placeholder="name" value="reqMethod">
+              <span class="input-group-addon">value</span>
+              <input id="value-value" type="text" class="form-control input-parameter" name="value" placeholder="value">
+            </div>
+        </div>
+<!--         <br>
+        <div class="form-inline">
+            <div class="input-group div-param-list-input" id="div-param-list-input">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>
+              <span class="input-group-addon">param</span>
+              <input id="param-name" type="text" class="form-control input-parameter" name="param" placeholder="name" value="resMethod">
+              <span class="input-group-addon">value</span>
+              <input id="value-value" type="text" class="form-control input-parameter" name="value" placeholder="value">
+            </div>
+        </div>
+ -->    </div>
+    <br>
+    <div class="input-group">
+    <p>
+      <button type="button" class="btn btn-success btn-sm" onclick="addParam()" id="param-btn">Add</i></button>
+      <button type="button" onclick="getAPI()" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Get API</button>
+      </p>
+    </div>
+  </form>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog"">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">API</h4>
+        </div>
+        <div class="modal-body">
+          <pre id="url-api-pre"></pre>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" name="copy" id="copy-btn" onclick="copy()">Copy</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+</body>
+</html>
