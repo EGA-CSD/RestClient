@@ -1,6 +1,10 @@
 # RESTFUL services
 This repository will provide RestClient libraries in order to call web services
 
+# Service 
+  - API Provider
+  - Check OpenID service
+
 # API
   - RestClient, is to provide basic connection management
   - Soap2json, is to convert SOAP web services to json
