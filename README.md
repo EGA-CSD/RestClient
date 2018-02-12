@@ -3,7 +3,7 @@ This repository will provide RestClient libraries in order to call web services
 
 # Service 
   - API Provider
-  - Check OpenID service
+  - [Checking OpenID service](https://github.com/EGA-CSD/RestClient/blob/master/ega/api/Test/TestOpenID2.php)
 
 # API
   - RestClient, is to provide basic connection management
